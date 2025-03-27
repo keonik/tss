@@ -1,0 +1,8 @@
+# development
+node_modules
+count.txt
+
+# build
+.vinxi
+.output
+
