@@ -3,6 +3,7 @@ import * as fs from 'node:fs'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
 import { Button } from "@/components/ui/button"
+import { ThemeSwitcher } from '@/components/ui/theme-switcher'
 
 const filePath = 'count.txt'
 
@@ -30,11 +31,15 @@ export const Route = createFileRoute('/')({
   loader: async () => await getCount(),
 })
 
+
 function Home() {
   const router = useRouter()
   const state = Route.useLoaderData()
 
   return (
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h1 className="text-4xl font-bold">TanStack Start Starter</h1>
+      <ThemeSwitcher />
     
     <Button
       type="button"
@@ -46,5 +51,6 @@ function Home() {
     >
       Add 1 to {state}?
     </Button>
+    </div>
   )
 }

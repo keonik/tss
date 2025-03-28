@@ -6,6 +6,7 @@ import {
   Scripts,
 } from '@tanstack/react-router'
 import appCss from "@/styles/app.css?url"
+import { ThemeProvider } from '@/components/providers/theme-provider'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -39,16 +40,24 @@ function RootComponent() {
   )
 }
 
+function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <ThemeProvider>
+      {children}
+    </ThemeProvider>
+  )
+}
+
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html>
       <head>
         <HeadContent />
       </head>
-      <body>
+      <Providers><body>
         {children}
         <Scripts />
-      </body>
+      </body></Providers>
     </html>
   )
 }
