@@ -37,38 +37,46 @@ export const ThemeSwitcher = ({
   defaultValue = 'system',
   className,
 }: ThemeSwitcherProps) => {
-  const [theme, setTheme] = useControllableState({
-    defaultProp: defaultValue,
-    prop: value,
-    onChange,
-  });
-
-  function toggleTheme() {
+  function toggleTheme(t: 'light' | 'dark' | 'system') {
+    console.log('toggleTheme', t, theme)
+    // if(theme === t) return;
+    if(theme === 'system') {
+      // setTheme('system');
+      if(window.matchMedia("(prefers-color-scheme: dark)").matches){
+      localStorage.theme = 'dark'
+      return
+      }
+      document.documentElement.classList.remove('dark');
+        localStorage.theme = 'light';
+        return
+    }
     if (
-      document.documentElement.classList.contains("dark") ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
+      t === 'light'
     ) {
       document.documentElement.classList.remove("dark");
       localStorage.theme = "light";
-      setTheme("light");
+      // setTheme('light');
     } else {
       document.documentElement.classList.add("dark");
       localStorage.theme = "dark";
-      setTheme("dark");
+      // setTheme('dark');
     }
   }
- 
-  // const [mounted, setMounted] = useState(false);
+  const [theme, setTheme] = useControllableState({
+    defaultProp: localStorage.getItem('theme') || defaultValue,
+    prop: value,
+    onChange: toggleTheme,
+  });
+  const [mounted, setMounted] = useState(false);
 
-  // // Prevent hydration mismatch
-  // useEffect(() => {
-  //   setMounted(true);
-  // }, []);
+  // Prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  // if (!mounted) {
-  //   return null;
-  // }
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div
@@ -85,7 +93,7 @@ export const ThemeSwitcher = ({
             type="button"
             key={key}
             className="relative h-6 w-6 rounded-full"
-            onClick={toggleTheme}
+            onClick={() => setTheme(key as 'light' | 'dark' | 'system')}
             aria-label={label}
           >
             {isActive && (
