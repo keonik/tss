@@ -40,3 +40,12 @@ This repository demonstrates the use of [TanStack](https://tanstack.com/).
 
     This project is licensed under the [MIT License](LICENSE).
 
+## Scripts
+
+These scripts in package.json use bun by default, but you can modify them to use your preferred package manager.
+
+auth:generate - Regenerate the auth db schema if you've made changes to your Better Auth config.
+db - Run drizzle-kit commands. (e.g. bun db generate to generate a migration)
+ui - The shadcn/ui CLI. (e.g. bun ui add button to add the button component)
+format and lint - Run Prettier and ESLint.
+
